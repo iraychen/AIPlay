@@ -13,6 +13,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QMap>
+#include <QList>
 #include <QAction>
 
 #include "../PluginCore/IPlugin.h"
