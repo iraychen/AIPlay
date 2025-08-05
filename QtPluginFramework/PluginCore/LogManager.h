@@ -163,7 +163,7 @@ private:
 
     QFile m_logFile;
     QTextStream m_logStream;
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
     LogLevel m_maxLogLevel;
     bool m_logToConsole;
     bool m_initialized;

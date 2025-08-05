@@ -155,7 +155,7 @@ private:
     ~ExceptionHandler();
 
     QMap<QString, ExceptionHandlerFunc> m_handlers;
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
     bool m_initialized;
 };
 

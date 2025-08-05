@@ -135,7 +135,7 @@ private:
 
     // Key: pluginId:messageType
     QMap<QString, MessageHandlerFunc> m_handlers;
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
     bool m_initialized;
 };
 

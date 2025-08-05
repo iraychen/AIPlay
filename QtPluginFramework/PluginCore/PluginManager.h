@@ -286,7 +286,7 @@ private:
     QMap<QString, IPlugin*> m_plugins;
     QMap<QString, PluginMetadata> m_pluginMetadata;
     QMap<QString, PluginState> m_pluginStates;
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
     bool m_initialized;
     
     // Framework version

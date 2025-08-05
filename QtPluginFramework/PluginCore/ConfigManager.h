@@ -224,7 +224,7 @@ private:
     QString m_configDir;
     QMap<QString, QVariant> m_frameworkConfig;
     QMap<QString, QMap<QString, QVariant>> m_pluginConfigs;
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
     bool m_initialized;
 };
 
