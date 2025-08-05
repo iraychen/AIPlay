@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonValue>
 #include <QFile>
 #include <QDir>
 #include <QMutex>
