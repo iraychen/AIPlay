@@ -24,7 +24,7 @@ DISTFILES += \
 # Link with PluginCore
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build/release/ -lPluginCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build/debug/ -lPluginCore
-else:unix: LIBS += -L$$PWD/../../build/ -lPluginCore
+else:unix: LIBS += -L$$PWD/../../build/release/ -lPluginCore
 
 INCLUDEPATH += $$PWD/../../
 DEPENDPATH += $$PWD/../../

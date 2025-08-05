@@ -2,8 +2,9 @@ QT += core gui widgets
 
 TARGET = PluginCore
 TEMPLATE = lib
-CONFIG += shared
+CONFIG += shared dll
 
+# Ensure proper import/export macros are used
 DEFINES += PLUGINCORE_LIBRARY
 
 # The following define makes your compiler emit warnings if you use

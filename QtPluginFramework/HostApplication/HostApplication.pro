@@ -23,7 +23,16 @@ HEADERS += \
 # Link with PluginCore
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build/release/ -lPluginCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build/debug/ -lPluginCore
-else:unix: LIBS += -L$$PWD/../build/ -lPluginCore
+else:unix: LIBS += -L$$PWD/../build/release/ -lPluginCore
+
+# Add runtime dependency for Windows
+win32 {
+    CONFIG(debug, debug|release) {
+        QMAKE_POST_LINK += $$QMAKE_COPY $$shell_path($$PWD/../build/debug/PluginCore.dll) $$shell_path($$DESTDIR/) $$escape_expand(\\n\\t)
+    } else {
+        QMAKE_POST_LINK += $$QMAKE_COPY $$shell_path($$PWD/../build/release/PluginCore.dll) $$shell_path($$DESTDIR/) $$escape_expand(\\n\\t)
+    }
+}
 
 INCLUDEPATH += $$PWD/../
 DEPENDPATH += $$PWD/../

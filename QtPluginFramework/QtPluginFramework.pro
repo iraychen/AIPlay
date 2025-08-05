@@ -5,6 +5,8 @@ SUBDIRS += \
     HostApplication \
     Plugins
 
+# Explicitly define the build order
+CONFIG += ordered
 HostApplication.depends = PluginCore
 Plugins.depends = PluginCore
 
