@@ -230,7 +230,7 @@ QStringList PermissionManager::getPluginPermissions(const QString& pluginId) con
         return QStringList();
     }
     
-    return m_pluginPermissions[pluginId].toList();
+    return QStringList::fromSet(m_pluginPermissions[pluginId]);
 }
 
 QStringList PermissionManager::getPluginsWithPermission(const QString& permission) const
