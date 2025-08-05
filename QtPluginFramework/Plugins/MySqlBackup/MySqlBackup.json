@@ -1,0 +1,15 @@
+{
+    "id": "MySqlBackup",
+    "name": "MySQL Database Backup",
+    "version": "1.0.0",
+    "vendor": "Enterprise",
+    "description": "Provides MySQL database backup functionality",
+    "dependencies": [],
+    "minFrameworkVersion": "1.0.0",
+    "category": "Database",
+    "iconPath": ":/icons/mysql.png",
+    "requiredPermissions": [
+        "file.write",
+        "system.execute"
+    ]
+}

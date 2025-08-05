@@ -1,0 +1,15 @@
+{
+    "id": "SqlServerBackup",
+    "name": "SQL Server Database Backup",
+    "version": "1.0.0",
+    "vendor": "Enterprise",
+    "description": "Provides SQL Server database backup functionality",
+    "dependencies": [],
+    "minFrameworkVersion": "1.0.0",
+    "category": "Database",
+    "iconPath": ":/icons/sqlserver.png",
+    "requiredPermissions": [
+        "file.write",
+        "database.access"
+    ]
+}
