@@ -11,6 +11,7 @@
 #include <QMutex>
 #include <QSet>
 #include <QJsonObject>
+#include <QVariant>
 #include <QVariantMap>
 
 #include "IPlugin.h"

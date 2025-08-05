@@ -15,6 +15,7 @@
 #include <QMap>
 #include <QList>
 #include <QAction>
+#include <QVariant>
 
 #include "../PluginCore/IPlugin.h"
 
