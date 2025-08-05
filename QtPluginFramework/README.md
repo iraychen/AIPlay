@@ -69,15 +69,54 @@ QtPluginFramework/
 2. Configure the project for your target platform
 3. Build the project
 
-### Using Command Line
+### Using Build Scripts
+
+#### Windows
+```batch
+cd QtPluginFramework
+build_windows.bat        # For release build
+build_windows.bat debug  # For debug build
+```
+
+#### Linux
+```bash
+cd QtPluginFramework
+./build_linux.sh         # For release build
+./build_linux.sh debug   # For debug build
+```
+
+### Using Command Line Manually
 
 ```bash
 cd QtPluginFramework
-mkdir build
-cd build
-qmake ../QtPluginFramework.pro
+# Create build directories
+mkdir -p build/debug build/release build/debug/plugins build/release/plugins
+
+# Build PluginCore first
+cd PluginCore
+qmake
 make  # or nmake on Windows
+cd ..
+
+# Build HostApplication
+cd HostApplication
+qmake
+make  # or nmake on Windows
+cd ..
+
+# Build Plugins
+cd Plugins/MySqlBackup
+qmake
+make  # or nmake on Windows
+cd ../..
+
+cd Plugins/SqlServerBackup
+qmake
+make  # or nmake on Windows
+cd ../..
 ```
+
+> **Important**: The PluginCore library must be built first before building the host application or plugins.
 
 ## Usage
 

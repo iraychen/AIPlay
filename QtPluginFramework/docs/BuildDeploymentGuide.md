@@ -74,25 +74,107 @@ QtPluginFramework/
 
 ## Building with Command Line
 
-### Windows
+### Using Build Scripts
+
+The framework includes build scripts for both Windows and Linux that handle the build process correctly.
+
+#### Windows
 
 ```batch
 cd QtPluginFramework
-mkdir build
-cd build
-qmake ../QtPluginFramework.pro
-nmake
+build_windows.bat        # For release build
+build_windows.bat debug  # For debug build
 ```
 
-### Linux
+#### Linux
 
 ```bash
 cd QtPluginFramework
-mkdir build
-cd build
-qmake ../QtPluginFramework.pro
-make
+./build_linux.sh         # For release build
+./build_linux.sh debug   # For debug build
 ```
+
+### Manual Build Process
+
+If you prefer to build manually, follow these steps to ensure the correct build order:
+
+#### Windows
+
+```batch
+cd QtPluginFramework
+
+REM Create build directories
+mkdir build\debug
+mkdir build\release
+mkdir build\debug\plugins
+mkdir build\release\plugins
+mkdir build\debug\metadata
+mkdir build\release\metadata
+mkdir build\debug\config
+mkdir build\release\config
+mkdir build\debug\logs
+mkdir build\release\logs
+
+REM Build PluginCore first
+cd PluginCore
+qmake
+nmake
+cd ..
+
+REM Build HostApplication
+cd HostApplication
+qmake
+nmake
+cd ..
+
+REM Build Plugins
+cd Plugins\MySqlBackup
+qmake
+nmake
+cd ..\..
+
+cd Plugins\SqlServerBackup
+qmake
+nmake
+cd ..\..
+```
+
+#### Linux
+
+```bash
+cd QtPluginFramework
+
+# Create build directories
+mkdir -p build/debug build/release build/debug/plugins build/release/plugins
+mkdir -p build/debug/metadata build/release/metadata
+mkdir -p build/debug/config build/release/config
+mkdir -p build/debug/logs build/release/logs
+
+# Build PluginCore first
+cd PluginCore
+qmake
+make
+cd ..
+
+# Build HostApplication
+cd HostApplication
+qmake
+make
+cd ..
+
+# Build Plugins
+cd Plugins/MySqlBackup
+qmake
+make
+cd ../..
+
+cd Plugins/SqlServerBackup
+qmake
+make
+cd ../..
+```
+
+> **Important**: The PluginCore library must be built first before building the host application or plugins.
 
 ## Deployment
 
