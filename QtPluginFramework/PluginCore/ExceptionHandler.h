@@ -5,6 +5,7 @@
 #include <QString>
 #include <QException>
 #include <QMutex>
+#include <QMap>
 #include <functional>
 
 /**
