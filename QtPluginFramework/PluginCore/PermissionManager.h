@@ -166,7 +166,7 @@ private:
 
     QMap<QString, QString> m_permissions; // Permission -> Description
     QMap<QString, QSet<QString>> m_pluginPermissions; // PluginId -> Set of permissions
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
     bool m_initialized;
 };
 
