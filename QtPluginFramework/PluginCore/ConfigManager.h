@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QDir>
 #include <QMutex>
+#include <QStringList>
 
 /**
  * @brief The ConfigManager class manages configuration settings for the framework and plugins.
