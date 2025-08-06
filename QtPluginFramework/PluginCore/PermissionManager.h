@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QSet>
 #include <QMutex>
+#include <QRecursiveMutex>
 
 /**
  * @brief The PermissionManager class manages permissions for plugins.
@@ -166,7 +167,7 @@ private:
 
     QMap<QString, QString> m_permissions; // Permission -> Description
     QMap<QString, QSet<QString>> m_pluginPermissions; // PluginId -> Set of permissions
-    mutable QMutex m_mutex;
+    mutable QRecursiveMutex m_mutex;
     bool m_initialized;
 };
 

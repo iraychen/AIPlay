@@ -1,4 +1,5 @@
 #include "LogManager.h"
+#include <QRecursiveMutexLocker>
 
 LogManager::LogManager() : m_maxLogLevel(LogLevel::Debug), m_logToConsole(true), m_initialized(false)
 {
@@ -17,7 +18,7 @@ LogManager& LogManager::instance()
 
 bool LogManager::initialize(const QString& logFilePath, bool logToConsole, LogLevel maxLogLevel)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         // Already initialized, close the current log file first
@@ -43,7 +44,7 @@ bool LogManager::initialize(const QString& logFilePath, bool logToConsole, LogLe
 
 void LogManager::shutdown()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         log(LogLevel::Info, "LogManager", "Log system shutting down");
@@ -84,7 +85,7 @@ void LogManager::fatal(const QString& source, const QString& message)
 
 void LogManager::setMaxLogLevel(LogLevel level)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     m_maxLogLevel = level;
 }
 
@@ -95,7 +96,7 @@ LogLevel LogManager::getMaxLogLevel() const
 
 void LogManager::setConsoleLogging(bool enable)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     m_logToConsole = enable;
 }
 
@@ -111,7 +112,7 @@ void LogManager::log(LogLevel level, const QString& source, const QString& messa
         return;
     }
     
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     QDateTime timestamp = QDateTime::currentDateTime();
     QString timestampStr = timestamp.toString("yyyy-MM-dd hh:mm:ss.zzz");

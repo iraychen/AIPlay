@@ -1,6 +1,9 @@
 #include "PluginCommunication.h"
+#include <QRecursiveMutexLocker>
 #include "LogManager.h"
+#include <QRecursiveMutexLocker>
 #include "PermissionManager.h"
+#include <QRecursiveMutexLocker>
 
 PluginCommunication::PluginCommunication() : m_initialized(false)
 {
@@ -19,7 +22,7 @@ PluginCommunication& PluginCommunication::instance()
 
 bool PluginCommunication::initialize()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_WARNING("PluginCommunication", "Already initialized");
@@ -35,7 +38,7 @@ bool PluginCommunication::initialize()
 
 void PluginCommunication::shutdown()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_INFO("PluginCommunication", "Shutting down");
@@ -48,7 +51,7 @@ void PluginCommunication::shutdown()
 
 QVariant PluginCommunication::sendMessage(const QString& sender, const QString& receiver, const QString& messageType, const QVariant& data)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginCommunication", "Not initialized");
@@ -87,7 +90,7 @@ QVariant PluginCommunication::sendMessage(const QString& sender, const QString& 
 
 QMap<QString, QVariant> PluginCommunication::broadcastMessage(const QString& sender, const QString& messageType, const QVariant& data)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginCommunication", "Not initialized");
@@ -132,7 +135,7 @@ QMap<QString, QVariant> PluginCommunication::broadcastMessage(const QString& sen
 
 bool PluginCommunication::registerMessageHandler(const QString& pluginId, const QString& messageType, MessageHandlerFunc handler)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginCommunication", "Not initialized");
@@ -155,7 +158,7 @@ bool PluginCommunication::registerMessageHandler(const QString& pluginId, const 
 
 bool PluginCommunication::unregisterMessageHandler(const QString& pluginId, const QString& messageType)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginCommunication", "Not initialized");
@@ -178,7 +181,7 @@ bool PluginCommunication::unregisterMessageHandler(const QString& pluginId, cons
 
 bool PluginCommunication::unregisterAllMessageHandlers(const QString& pluginId)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginCommunication", "Not initialized");

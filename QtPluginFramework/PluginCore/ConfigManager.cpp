@@ -1,5 +1,7 @@
 #include "ConfigManager.h"
+#include <QRecursiveMutexLocker>
 #include "LogManager.h"
+#include <QRecursiveMutexLocker>
 
 ConfigManager::ConfigManager() : m_initialized(false)
 {
@@ -18,7 +20,7 @@ ConfigManager& ConfigManager::instance()
 
 bool ConfigManager::initialize(const QString& configDir)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_WARNING("ConfigManager", "Already initialized");
@@ -43,7 +45,7 @@ bool ConfigManager::initialize(const QString& configDir)
 
 void ConfigManager::shutdown()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_INFO("ConfigManager", "Shutting down");
@@ -53,7 +55,7 @@ void ConfigManager::shutdown()
 
 bool ConfigManager::loadFrameworkConfig(const QString& configFile)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -92,7 +94,7 @@ bool ConfigManager::loadFrameworkConfig(const QString& configFile)
 
 bool ConfigManager::saveFrameworkConfig(const QString& configFile)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -130,7 +132,7 @@ bool ConfigManager::saveFrameworkConfig(const QString& configFile)
 
 bool ConfigManager::loadPluginConfig(const QString& pluginId, const QString& configFile)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -169,7 +171,7 @@ bool ConfigManager::loadPluginConfig(const QString& pluginId, const QString& con
 
 bool ConfigManager::savePluginConfig(const QString& pluginId, const QString& configFile)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -213,7 +215,7 @@ bool ConfigManager::savePluginConfig(const QString& pluginId, const QString& con
 
 QVariant ConfigManager::getFrameworkValue(const QString& key, const QVariant& defaultValue) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -225,7 +227,7 @@ QVariant ConfigManager::getFrameworkValue(const QString& key, const QVariant& de
 
 void ConfigManager::setFrameworkValue(const QString& key, const QVariant& value)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -239,7 +241,7 @@ void ConfigManager::setFrameworkValue(const QString& key, const QVariant& value)
 
 QVariant ConfigManager::getPluginValue(const QString& pluginId, const QString& key, const QVariant& defaultValue) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -255,7 +257,7 @@ QVariant ConfigManager::getPluginValue(const QString& pluginId, const QString& k
 
 void ConfigManager::setPluginValue(const QString& pluginId, const QString& key, const QVariant& value)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -269,7 +271,7 @@ void ConfigManager::setPluginValue(const QString& pluginId, const QString& key, 
 
 bool ConfigManager::hasFrameworkKey(const QString& key) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -281,7 +283,7 @@ bool ConfigManager::hasFrameworkKey(const QString& key) const
 
 bool ConfigManager::hasPluginKey(const QString& pluginId, const QString& key) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -297,7 +299,7 @@ bool ConfigManager::hasPluginKey(const QString& pluginId, const QString& key) co
 
 bool ConfigManager::removeFrameworkKey(const QString& key)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -309,7 +311,7 @@ bool ConfigManager::removeFrameworkKey(const QString& key)
 
 bool ConfigManager::removePluginKey(const QString& pluginId, const QString& key)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -325,7 +327,7 @@ bool ConfigManager::removePluginKey(const QString& pluginId, const QString& key)
 
 QStringList ConfigManager::getFrameworkKeys() const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -337,7 +339,7 @@ QStringList ConfigManager::getFrameworkKeys() const
 
 QStringList ConfigManager::getPluginKeys(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -353,7 +355,7 @@ QStringList ConfigManager::getPluginKeys(const QString& pluginId) const
 
 QJsonObject ConfigManager::getFrameworkConfigAsJson() const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");
@@ -372,7 +374,7 @@ QJsonObject ConfigManager::getFrameworkConfigAsJson() const
 
 QJsonObject ConfigManager::getPluginConfigAsJson(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ConfigManager", "Not initialized");

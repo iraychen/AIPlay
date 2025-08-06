@@ -1,5 +1,7 @@
 #include "ExceptionHandler.h"
+#include <QRecursiveMutexLocker>
 #include "LogManager.h"
+#include <QRecursiveMutexLocker>
 
 // PluginException implementation
 PluginException::PluginException(const QString& source, const QString& message, int code)
@@ -59,7 +61,7 @@ ExceptionHandler& ExceptionHandler::instance()
 
 bool ExceptionHandler::initialize()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_WARNING("ExceptionHandler", "Already initialized");
@@ -83,7 +85,7 @@ bool ExceptionHandler::initialize()
 
 void ExceptionHandler::shutdown()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_INFO("ExceptionHandler", "Shutting down");
@@ -96,7 +98,7 @@ void ExceptionHandler::shutdown()
 
 void ExceptionHandler::handleException(const PluginException& exception)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         // If not initialized, just log the exception
@@ -125,7 +127,7 @@ void ExceptionHandler::handleException(const PluginException& exception)
 
 bool ExceptionHandler::registerExceptionHandler(const QString& source, ExceptionHandlerFunc handler)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized && source != "") {
         LOG_ERROR("ExceptionHandler", "Not initialized");
@@ -146,7 +148,7 @@ bool ExceptionHandler::registerExceptionHandler(const QString& source, Exception
 
 bool ExceptionHandler::unregisterExceptionHandler(const QString& source)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("ExceptionHandler", "Not initialized");

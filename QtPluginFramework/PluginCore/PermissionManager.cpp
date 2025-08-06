@@ -1,5 +1,7 @@
 #include "PermissionManager.h"
+#include <QRecursiveMutexLocker>
 #include "LogManager.h"
+#include <QRecursiveMutexLocker>
 
 PermissionManager::PermissionManager() : m_initialized(false)
 {
@@ -18,7 +20,7 @@ PermissionManager& PermissionManager::instance()
 
 bool PermissionManager::initialize()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_WARNING("PermissionManager", "Already initialized");
@@ -42,7 +44,7 @@ bool PermissionManager::initialize()
 
 void PermissionManager::shutdown()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_INFO("PermissionManager", "Shutting down");
@@ -56,7 +58,7 @@ void PermissionManager::shutdown()
 
 bool PermissionManager::registerPermission(const QString& permission, const QString& description)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -79,7 +81,7 @@ bool PermissionManager::registerPermission(const QString& permission, const QStr
 
 bool PermissionManager::unregisterPermission(const QString& permission)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -107,7 +109,7 @@ bool PermissionManager::unregisterPermission(const QString& permission)
 
 bool PermissionManager::isPermissionRegistered(const QString& permission) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -119,7 +121,7 @@ bool PermissionManager::isPermissionRegistered(const QString& permission) const
 
 QStringList PermissionManager::getRegisteredPermissions() const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -131,7 +133,7 @@ QStringList PermissionManager::getRegisteredPermissions() const
 
 QString PermissionManager::getPermissionDescription(const QString& permission) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -143,7 +145,7 @@ QString PermissionManager::getPermissionDescription(const QString& permission) c
 
 bool PermissionManager::grantPermission(const QString& pluginId, const QString& permission)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -175,7 +177,7 @@ bool PermissionManager::grantPermission(const QString& pluginId, const QString& 
 
 bool PermissionManager::revokePermission(const QString& pluginId, const QString& permission)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -203,7 +205,7 @@ bool PermissionManager::revokePermission(const QString& pluginId, const QString&
 
 bool PermissionManager::hasPermission(const QString& pluginId, const QString& permission) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -219,7 +221,7 @@ bool PermissionManager::hasPermission(const QString& pluginId, const QString& pe
 
 QStringList PermissionManager::getPluginPermissions(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");
@@ -241,7 +243,7 @@ QStringList PermissionManager::getPluginPermissions(const QString& pluginId) con
 
 QStringList PermissionManager::getPluginsWithPermission(const QString& permission) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PermissionManager", "Not initialized");

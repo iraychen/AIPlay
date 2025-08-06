@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QDir>
 #include <QMutex>
+#include <QRecursiveMutex>
 #include <QStringList>
 
 /**
@@ -227,7 +228,7 @@ private:
     QString m_configDir;
     QMap<QString, QVariant> m_frameworkConfig;
     QMap<QString, QMap<QString, QVariant>> m_pluginConfigs;
-    mutable QMutex m_mutex;
+    mutable QRecursiveMutex m_mutex;
     bool m_initialized;
 };
 

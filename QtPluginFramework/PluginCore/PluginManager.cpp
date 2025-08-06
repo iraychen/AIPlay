@@ -1,14 +1,24 @@
 #include "PluginManager.h"
+#include <QRecursiveMutexLocker>
 #include "LogManager.h"
+#include <QRecursiveMutexLocker>
 #include "ConfigManager.h"
+#include <QRecursiveMutexLocker>
 #include "PermissionManager.h"
+#include <QRecursiveMutexLocker>
 #include "ExceptionHandler.h"
+#include <QRecursiveMutexLocker>
 #include "PluginCommunication.h"
+#include <QRecursiveMutexLocker>
 
 #include <QCoreApplication>
+#include <QRecursiveMutexLocker>
 #include <QFileInfo>
+#include <QRecursiveMutexLocker>
 #include <QJsonDocument>
+#include <QRecursiveMutexLocker>
 #include <QJsonArray>
+#include <QRecursiveMutexLocker>
 
 PluginManager::PluginManager() : m_initialized(false)
 {
@@ -27,7 +37,7 @@ PluginManager& PluginManager::instance()
 
 bool PluginManager::initialize(const QString& pluginDir, const QString& metadataDir)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_WARNING("PluginManager", "Already initialized");
@@ -64,7 +74,7 @@ bool PluginManager::initialize(const QString& pluginDir, const QString& metadata
 
 void PluginManager::shutdown()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (m_initialized) {
         LOG_INFO("PluginManager", "Shutting down");
@@ -96,7 +106,7 @@ void PluginManager::shutdown()
 
 QStringList PluginManager::scanForPlugins()
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -124,7 +134,7 @@ QStringList PluginManager::scanForPlugins()
 
 bool PluginManager::loadPlugin(const QString& pluginId)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -221,7 +231,7 @@ bool PluginManager::loadPlugin(const QString& pluginId)
 
 bool PluginManager::unloadPlugin(const QString& pluginId)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -282,7 +292,7 @@ bool PluginManager::unloadPlugin(const QString& pluginId)
 
 bool PluginManager::initializePlugin(const QString& pluginId)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -368,7 +378,7 @@ bool PluginManager::initializePlugin(const QString& pluginId)
 
 bool PluginManager::activatePlugin(const QString& pluginId)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -449,7 +459,7 @@ bool PluginManager::activatePlugin(const QString& pluginId)
 
 bool PluginManager::deactivatePlugin(const QString& pluginId)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -515,7 +525,7 @@ bool PluginManager::deactivatePlugin(const QString& pluginId)
 
 IPlugin* PluginManager::getPlugin(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -527,7 +537,7 @@ IPlugin* PluginManager::getPlugin(const QString& pluginId) const
 
 QMap<QString, IPlugin*> PluginManager::getLoadedPlugins() const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -539,7 +549,7 @@ QMap<QString, IPlugin*> PluginManager::getLoadedPlugins() const
 
 QMap<QString, IPlugin*> PluginManager::getActivePlugins() const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -559,7 +569,7 @@ QMap<QString, IPlugin*> PluginManager::getActivePlugins() const
 
 PluginState PluginManager::getPluginState(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -571,7 +581,7 @@ PluginState PluginManager::getPluginState(const QString& pluginId) const
 
 PluginMetadata PluginManager::getPluginMetadata(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -583,7 +593,7 @@ PluginMetadata PluginManager::getPluginMetadata(const QString& pluginId) const
 
 QMap<QString, PluginMetadata> PluginManager::getAvailablePlugins() const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -595,7 +605,7 @@ QMap<QString, PluginMetadata> PluginManager::getAvailablePlugins() const
 
 bool PluginManager::isPluginLoaded(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -607,7 +617,7 @@ bool PluginManager::isPluginLoaded(const QString& pluginId) const
 
 bool PluginManager::isPluginActive(const QString& pluginId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");
@@ -619,7 +629,7 @@ bool PluginManager::isPluginActive(const QString& pluginId) const
 
 QVariant PluginManager::executePluginCommand(const QString& pluginId, const QString& command, const QVariantMap& params)
 {
-    QMutexLocker locker(&m_mutex);
+    QRecursiveMutexLocker locker(&m_mutex);
     
     if (!m_initialized) {
         LOG_ERROR("PluginManager", "Not initialized");

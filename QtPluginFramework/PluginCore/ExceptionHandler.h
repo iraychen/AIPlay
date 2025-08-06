@@ -5,6 +5,7 @@
 #include <QString>
 #include <QException>
 #include <QMutex>
+#include <QRecursiveMutex>
 #include <QMap>
 #include <functional>
 
@@ -155,7 +156,7 @@ private:
     ~ExceptionHandler();
 
     QMap<QString, ExceptionHandlerFunc> m_handlers;
-    mutable QMutex m_mutex;
+    mutable QRecursiveMutex m_mutex;
     bool m_initialized;
 };
 

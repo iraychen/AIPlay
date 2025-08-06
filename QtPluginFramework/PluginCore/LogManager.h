@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include <QDateTime>
 #include <QMutex>
+#include <QRecursiveMutex>
 #include <QMap>
 #include <QDebug>
 
@@ -163,7 +164,7 @@ private:
 
     QFile m_logFile;
     QTextStream m_logStream;
-    mutable QMutex m_mutex;
+    mutable QRecursiveMutex m_mutex;
     LogLevel m_maxLogLevel;
     bool m_logToConsole;
     bool m_initialized;

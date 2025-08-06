@@ -6,6 +6,7 @@
 #include <QVariant>
 #include <QMap>
 #include <QMutex>
+#include <QRecursiveMutex>
 #include <functional>
 
 /**
@@ -135,7 +136,7 @@ private:
 
     // Key: pluginId:messageType
     QMap<QString, MessageHandlerFunc> m_handlers;
-    mutable QMutex m_mutex;
+    mutable QRecursiveMutex m_mutex;
     bool m_initialized;
 };
 
